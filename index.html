@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cascos Norte - Tienda Online</title>
+    <style>
+        /* Estilos Generales */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000000; /* un verde militar muy oscuro de fondo que resalta el neon*/
+            color: #ffffff;
+        }
+
+        header {
+            background-color: transparent;/* Fondo negro para ocultar el cuadro del logo */
+            padding: 25px;
+            text-align: center;
+            border-bottom: 3px solid #39ff14; /* linea neon sutil abajo */
+        }
+        /* Contenedor Invisible en el Fondo */
+        .pista-fondo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1; /* Se Mantiene al frente flotando sobre el fondo negro */
+            overflow: hidden;
+            pointer-events: none;
+            background-color: #000000; /* Fondo Negro Limpio */ 
+        }
+        /* Estilo de las Motos y su Brillo Llamativo */
+        .moto-veloz {
+            position: absolute;
+            font-size: 3rem; /* Tamaño Grande para que se note el detalle */
+            left: -100px; /* Empiezan Escondidas a la hizquierda */
+            opacity: 0.25; /* Sutil para que no tape las Descripciones */
+            filter: drop-shadow(0 0 8px #39ff14); /* Brillan en verde neon */
+            animation: acelerar linear infinite;
+        }
+        /* Alturas, Velocidad y demoras diferentes para que seaa dinamico */
+        .moto-veloz:nth-child(1) { top: 15%; animation-duration: 6s; animation-delay: 0s; }
+        .moto-veloz:nth-child(2) { top: 45%; animation-duration: 9s; animation-delay: 3s; }
+        .moto-veloz:nth-child(3) { top: 70%; animation-duration: 5s; animation-delay: 1.5s; }
+        .moto-veloz:nth-child(4) { top: 85; animation-duration: 11s; animation-delay: 5s; }
+      @keyframes acelerar {
+            0% {
+                transform: translateX(0vw) translateY(0vh) rotate(-5deg);
+            }
+            100% {
+                transform: translateX(120vw) translateY(-80px) rotate(-5deg);
+            }
+        }
+        header p {
+            margin: 8px 0 0;
+            font-size: 1.2rem;
+            color: #39ff14; /* el texo brilla en verde neon */
+            font-weight: bold;
+        }
+        /* tarjetas de los productos */
+        .producto-card{
+            background-color: #163a1e; /* verde contenedor llamativo */
+            border-radius: 12px;
+            overflow: hidden;
+            text-align: center;
+            border:2px solid #225c30;
+            transition: transform 0.3s, border-clor 0.3s, box-shadow 0.3s;
+        }
+        .producto-card:hover {
+            transform: translateY(-8px);
+            border-color: #39ff14; /* Brilla en verde neon al pasar el mouse */
+            box-shadow: 0px 0px 20px rgba(57, 255, 20, 06); /* Efecto de luz neon */
+        }
+
+        header p {
+            margin: 5px 0 0;
+            font-size: 1.1rem;
+            color: #cccccc;
+        }
+
+        /* Catálogo de Productos */
+        .catalogo {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .producto-card {
+            background-color: #262626;
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: center;
+            border: 1px solid #333;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .producto-card:hover {
+            transform: translateY(-5px);
+            border-color: #ff4500;
+        }
+
+        .producto-img {
+            width: 100%;
+            height: 300px;
+           object-fit: cover;
+           transition: transform 0.5s ease;
+        }
+        .producto-card:hover img{ 
+            transform: scale(1.12);
+        }
+
+        /* Si tienes las imágenes, reemplaza la clase anterior por una etiqueta <img> */
+        .producto-card img {
+            width: 100%;
+            height: 320px; /* Le subimos un poco la altura para que luzca mas la foto */
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .producto-card:hover img {
+            transform: scale(1.12);
+        }
+        .producto-info {
+            padding: 20px;
+        }
+
+        .producto-info h3 {
+            margin: 0 0 10px;
+            font-size: 1.3rem;
+        }
+
+        .precio {
+            font-size: 1.7rem;
+            color: #ffff00;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .descripcion{
+            font-size: 0.95rem;
+            color:#aaaaaa;
+            margin: 10px 0 20px 0;
+            line-height: 1.4;
+        }
+        /* Botón de Compra */
+        .btn-comprar {
+            display: inline-block;
+            background-color: #25d366;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .btn-comprar:hover {
+            background-color: #128c7e;
+        }
+
+        /* Pie de Página y Redes Sociales */
+        footer {
+            background-color: #000000;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+            border-top: 1px solid #333;
+        }
+
+        .redes-links {
+            margin-bottom: 15px;
+        }
+
+       /* Estilos base de las redes */
+       .redes-links a {
+        text-decoration: none;
+        margin: 0 15px;
+        font-size 1.2rem;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        padding: 5px 10px;
+        border-radius: 5px;
+       }
+       /* Color personalizado para instagram */
+       .link-instagram {
+           color: #e1306c;
+       }
+       .link-instagram:hover {
+           background: linear-grandiente(45deg, #f09433, #e1306c, #bc1888);
+           color: #ffffff;
+           box-shadow: 0 0 15px rgba(225, 48, 108, 0.5);
+       }
+       /* Color personalizado para tiktok */
+       .link-tiktok {
+        color: #00f2fe;
+        text-shadow: 2px 2px #fe0979;
+       }
+       .link-tiktok:hover {
+        color: #ffffff;
+        background-color: #010101;
+        box-shadow: 0 0 15px rgba(0, 242, 254, 0.6);
+       }
+       /* Color personalizado para WhatsApp */
+       .link-whatsapp{
+        color: #25d366;
+       }
+       .link-whatsapp:hover {
+        background-color: #25d366;
+        color: #ffffff;
+        box-shadow: 0 0 15px rgba(37, 211, 102, 0.6);
+       }
+
+        .footer-text {
+            color: #666666;
+            font-size: 0.9rem;
+        }
+        .logo-header {
+            max-width: 150px;
+            height: auto;
+            display: block;
+            margin: 0 auto 10px auto;
+        }
+     /* --- ADAPTACIÓN PROFESIONAL PARA CELULARES --- */
+@media (max-width: 768px) {
+    .contenedor-productos {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 10px;
+        margin-bottom: 300px !important; /* Deja espacio abajo para que no tape el casco */
+    }
+
+    .tarjeta-producto {
+        width: 95% !important;
+        max-width: 340px;
+    }
+
+    /* Fijamos el carrito abajo de todo como una app móvil */
+    #carrito-flotante {
+        position: fixed !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        border-radius: 12px 12px 0 0 !important;
+        border-top: 3px solid #39ff14 !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-bottom: none !important;
+        box-sizing: border-box;
+        padding: 15px !important;
+        background-color: #121212 !important;
+        box-shadow: 0 -5px 25px rgba(57, 255, 20, 0.4) !important;
+    }
+
+    /* Forzamos las letras negras y fondo llamativo en los botones */
+    #carrito-flotante button {
+        color: #000000 !important; 
+        font-weight: bold !important;
+        font-size: 0.95rem !important;
+        padding: 12px !important;
+    }
+}
+    </style>
+
+        <script src="https://mercadopago.com"></script>
+
+</head>
+<body>
+    <!-- Motos veloces cruzando el fondo negro -->
+    <div class="pista-fondo">
+    <div class=" moto-veloz">🏍️</div>
+    <div class="moto-veloz">🏍️</div>
+    <div class="moto-veloz">🏍️</div>
+    <div class="moto-veloz">🏍️</div>
+    </div>
+
+    <!-- Encabezado de la Página -->
+    <header>
+        <img src="imagenes/logo.jpeg" alt="Logo Casco Norte" class="logo-header">
+        <p>Proteccion y estilo para tus rutas</p>
+    </header>
+
+    <!-- Catálogo de Cascos -->
+    <main class="catalogo">
+        
+        <!-- Casco 1 -->
+        <div class="producto-card">
+            <!-- Reemplaza el src con el enlace o ruta de tu imagen -->
+            <img src="imagenes/casco1.jpeg" alt="Casco Integral Integral">
+           
+            <div class="producto-info">
+                <h3>Shaft Pro "180"</h3>
+                <p class="precio">$450.000</p>
+                <!--Enlace directo a WhatsApp con mensaje personalizado-->
+                <p class="descripcion">180 Grados Doble Visor 
+                    Certificacion 2206 y la Colombiana
+                    Viene con:
+                    1 Visor Tornasolado de Repuesto
+                    Sistema Visor Completo 
+                    Pinlock 30 (Antipañante)
+                    Bolson 
+                    Llavero y Stickers de la Marca 
+                    Talle: L
+                </p>
+                <!-- Enlace directo a WhatsApp con mensaje personalizado -->
+                 <button onclick="agregarAlCarrito('Shaft Pro 180', 450000)" class="btn-comprar">Agregar al Carrito</button>
+            </div>
+        </div>
+
+        <!-- Casco 2 -->
+        <div class="producto-card">
+            <img src="imagenes/casco3.jpeg" alt="Casco Shaft Pro 615 DV">
+            <div class="producto-info">
+                <h3>Casco Shaft Pro 615 DV</h3>
+                <p class="precio">$350.000</p>
+                 <!--Enlace directo a WhatsApp con mensaje personalizado-->
+                <p class="descripcion">Integral Doble Visor 
+                    Certificacion 2206 y la Colombiana Viene con Bolson
+                    Viene con 1 Visor Tornas de Repuestos 
+                    Viene con Pinlcok 70
+                    Es Apto Intercomunicador 
+                    Talle:L
+                </p>
+                <!-- Enlace directo a WhatsApp con mensaje personalizado -->
+                 <button onclick="agregarAlCarrito('Shaft Pro 615 Dv', 350000)" class="btn-comprar">Agregar al Carrito</button>
+            </div>
+        </div>
+
+        <!-- Casco 3 -->
+        <div class="producto-card">
+            <img src="imagenes/casco4.jpeg" alt="Shaft Solid Violeta">
+            <div class="producto-info">
+                <h3>Shaft Solid Violeta</h3>
+                <p class="precio">$180.000</p>
+                 <!--Enlace directo a WhatsApp con mensaje personalizado-->
+                  <p class="descripcion"> Integral +1 Visor Tornasolado de Repuesto
+                    Apto Pinlock Apto Intercomunicador
+                    Doble Certificacion
+                    Talle:M
+                  </p>
+                   <!-- Enlace directo a WhatsApp con mensaje personalizado -->
+                 <button onclick="agregarAlCarrito('Shaft Solid Violeta', 180000)" class="btn-comprar">Agregar al Carrito</button>
+            </div>
+        </div>
+
+        <!-- Casco 4 -->
+          <div class="producto-card">
+            <img src="imagenes/casco5.jpeg" alt="Shaft Devil">
+            <div class="producto-info">
+                <h3>Shaft Devil</h3>
+                <p class="precio">$180.000</p>
+                 <!--Enlace directo a WhatsApp con mensaje personalizado-->
+                  <p class="descripcion"> Integral +1 Visor Transparente de Repuesto
+                    Apto Pinlock Apto Intercomunicador
+                    Doble Certificacion
+                    Talle:L
+                  </p>
+                   <!-- Enlace directo a WhatsApp con mensaje personalizado -->
+                <button onclick="agregarAlCarrito('Shaft Devil', 180000)" class="btn-comprar">Agregar al Carrito</button>
+            </div>
+        </div>
+
+        <!-- Casco 5 -->
+          <div class="producto-card">
+            <img src="imagenes/casco6.jpeg" alt="Shaft Bihozard">
+            <div class="producto-info">
+                <h3>Shaft Bihozard</h3>
+                <p class="precio">$180.000</p>
+                 <!--Enlace directo a WhatsApp con mensaje personalizado-->
+                  <p class="descripcion"> Integral +1 Visor de Repuesto Tornasolado
+                    Llavero de Regalo
+                    Doble Certificacion
+                    Talle:L
+                  </p>
+                   <!-- Enlace directo a WhatsApp con mensaje personalizado -->
+                <button onclick="agregarAlCarrito('Shaft Bihozard', 180000)" class="btn-comprar">Agregar al Carrito</button>
+            </div>
+        </div>
+        
+         <!-- Casco 6 -->
+          <div class="producto-card">
+            <img src="imagenes/casco7.jpeg" alt="HRO AKBAR AZUL">
+            <div class="producto-info">
+                <h3>HRO AKBAR AZUL</h3>
+                <p class="precio">$180.000</p>
+                 <!--Enlace directo a WhatsApp con mensaje personalizado-->
+                  <p class="descripcion"> Rebatible Doble Visor
+                    Apto Intercomunicador
+                    Apto Pinlock
+                    Doble Certificacion
+                    Talle:XL
+                  </p>
+                   <!-- Enlace directo a WhatsApp con mensaje personalizado -->
+                <button onclick="agregarAlCarrito('HRO AKBAR AZUL', 180000)" class="btn-comprar">Agregar al Carrito</button>
+            </div>
+        </div>
+
+         <!-- Casco 7 -->
+          <div class="producto-card">
+            <img src="imagenes/casco8.jpeg" alt="HRO SOLID LILA MULTIP">
+            <div class="producto-info">
+                <h3>HRO SOLID LILA MULTIP</h3>
+                <p class="precio">$180.000</p>
+                 <!--Enlace directo a WhatsApp con mensaje personalizado-->
+                  <p class="descripcion">Doble propósito 
+                    Multifunción 
+                   Doble visor
+                   Doble Certificación 
+                    Talle:M
+                  </p>
+                   <!-- Enlace directo a WhatsApp con mensaje personalizado -->
+                <button onclick="agregarAlCarrito('HRO SOLID LILA MULTIP', 180000)" class="btn-comprar">Agregar al Carrito</button>
+            </div>
+        </div>
+
+         <!-- Casco 8 -->
+          <div class="producto-card">
+            <img src="imagenes/casco9.jpeg" alt="HRO STRIPE COLORES">
+            <div class="producto-info">
+                <h3>HRO STRIPE COLORES</h3>
+                <p class="precio">$180.000</p>
+                 <!--Enlace directo a WhatsApp con mensaje personalizado-->
+                  <p class="descripcion">Doble propósito 
+                    Multifunción 
+                   Doble visor
+                   Doble Certificación 
+                    Talle:M
+                  </p>
+                   <!-- Enlace directo a WhatsApp con mensaje personalizado -->
+                <button onclick="agregarAlCarrito('HRO STRIPE COLORES', 180000)" class="btn-comprar">Agregar al Carrito</button>
+             </div>
+        </div>
+
+         <!-- Casco 9 -->
+          <div class="producto-card">
+            <img src="imagenes/casco10.jpeg" alt="DAKAR 917 NARANJA">
+            <div class="producto-info">
+                <h3>DAKAR 917 NARANJA</h3>
+                <p class="precio">$150.000</p>
+                 <!--Enlace directo a WhatsApp con mensaje personalizado-->
+                  <p class="descripcion">Rebatible
+                   Doble visor
+                   3 Pociones de Luces
+                   Certificado 
+                    Talle:XXL
+                  </p>
+                   <!-- Enlace directo a WhatsApp con mensaje personalizado -->
+                <button onclick="agregarAlCarrito('DAKAR 917 NARANJA', 150000)" class="btn-comprar">Agregar al Carrito</button>
+              </div>
+          </div>
+
+         <!-- Casco 10 -->
+          <div class="producto-card">
+            <img src="imagenes/casco11.jpeg" alt="HRO ROBOT FUCSIA">
+            <div class="producto-info">
+                <h3>HRO ROBOT FUCSIA</h3>
+                <p class="precio">$180.000</p>
+                 <!--Enlace directo a WhatsApp con mensaje personalizado-->
+                  <p class="descripcion">Rebatible
+                   Doble visor
+                   Apto Intercomunicador
+                   Apto Pinlock
+                  Doble Certificacion 
+                    Talle:M
+                  </p>
+                   <!-- Enlace directo a WhatsApp con mensaje personalizado -->
+                <button onclick="agregarAlCarrito('HRO ROBOT FUCSIA', 180000)" class="btn-comprar">Agregar al Carrito</button>
+               </div>
+          </div>
+
+         <!-- Casco 11 -->
+          <div class="producto-card">
+            <img src="imagenes/casco12.jpeg" alt="HRO SWITCH NARANJA">
+            <div class="producto-info">
+                <h3>HRO SWITCH NARANJA</h3>
+                <p class="precio">$180.000</p>
+                 <!--Enlace directo a WhatsApp con mensaje personalizado-->
+                  <p class="descripcion">Rebatible
+                   Doble visor
+                   Apto Intercomunicador
+                   Apto Pinlock
+                  Doble Certificacion 
+                    Talle:XL
+                  </p>
+                   <!-- Enlace directo a WhatsApp con mensaje personalizado -->
+                <button onclick="agregarAlCarrito('HRO SWITCH NARANJA', 180000)" class="btn-comprar">Agregar al Carrito</button>
+               </div>
+          </div>
+    <!-- Casco 12 -->
+          <div class="producto-card">
+            <img src="imagenes/casco13.jpeg" alt="HRO AIRJET GRIS">
+            <div class="producto-info">
+                <h3>HRO AIRJET GRIS</h3>
+                <p class="precio">$180.000</p>
+                 <!--Enlace directo a WhatsApp con mensaje personalizado-->
+                  <p class="descripcion">Rebatible
+                   Doble visor
+                   Apto Intercomunicador
+                   Apto Pinlock
+                  Doble Certificacion 
+                    Talle:XL
+                  </p>
+                   <!-- Enlace directo a WhatsApp con mensaje personalizado -->
+                <button onclick="agregarAlCarrito('HRO AIRJET GRIS', 180000)" class="btn-comprar">Agregar al Carrito</button>
+               </div>
+          </div>
+          <!-- Casco 13 -->
+          <div class="producto-card">
+            <img src="imagenes/casco14.jpeg" alt="HRO RAZOR VL/FUCSIA">
+            <div class="producto-info">
+                <h3>HRO RAZOR VL/FUCSIA</h3>
+                <p class="precio">$180.000</p>
+                 <!--Enlace directo a WhatsApp con mensaje personalizado-->
+                  <p class="descripcion">Rebatible
+                   Doble visor
+                   Apto Intercomunicador
+                   Apto Pinlock
+                  Doble Certificacion 
+                    Talle:S y M
+                  </p>
+                   <!-- Enlace directo a WhatsApp con mensaje personalizado -->
+                <button onclick="agregarAlCarrito('HRO RAZOR VL/FUCSIA', 180000)" class="btn-comprar">Agregar al Carrito</button>
+               </div>
+          </div>
+
+    </main>
+
+    <!-- Pie de página con Enlaces a Redes Sociales -->
+    <footer>
+        <div class="redes-links">
+            <a href="https://www.instagram.com/cascosnorte?psln=amU5ZXN2eHhqcmtl" target="_blank" class="link-instagram">Instagram</a>
+            <a href="https://www.tiktok.com/@cascosnorte?_r=1&_t=ZS-9BA2ltGKlfe" target="_blank" class="link-tiktok">TikTok</a>
+            <a href="https://wa.me/c/5493886828554" target="_blank" class="link-whatsapp">WhatsApp Directo</a>
+        </div>
+        <p class="footer-text">&copy; 2026 Cascos Norte. Todos los derechos reservados.</p>
+    </footer>
+
+<!-- 1. DISEÑO VISUAL DEL CARRITO FLOTANTE INTEGRADO (HTML) -->
+    <div id="carrito-flotante" style="position: fixed; bottom: 20px; right: 20px; background-color: #121212; border: 2px solid #39ff14; border-radius: 12px; padding: 20px; width: 300px; box-shadow: 0 0 20px rgba(57,255,20,0.3); display: none; z-index: 10000;">
+        <h4 style="margin: 0 0 10px 0; color: #39ff14; font-size: 1.2rem; text-align: center;">🛒 Tu Bolsa de Compras</h4>
+        <div id="items-carrito" style="max-height: 150px; overflow-y: auto; margin-bottom: 15px; font-size: 0.9rem; color: #ffffff;">
+            <!-- Aquí se irán sumando los cascos dinámicamente -->
+        </div>
+        <div style="border-top: 1px solid #333; padding-top: 10px; display: flex; justify-content: space-between; font-weight: bold; color: #ffff00; margin-bottom: 15px;">
+            <span>TOTAL:</span>
+            <span id="total-precio">$0</span>
+        </div>
+        
+     <!-- BOTÓN 1: Finalizar por WhatsApp -->
+        <button onclick="enviarPedidoWhatsApp()" style="width: 100% !important; background-color: #39ff14 !important; color: #000000 !important; border: none !important; padding: 12px !important; border-radius: 6px !important; font-weight: 900 !important; font-size: 1rem !important; cursor: pointer !important; margin-bottom: 8px !important; text-transform: uppercase !important; display: block !important;">
+            🚀 Finalizar por WhatsApp
+        </button>
+
+        <!-- BOTÓN 2: Pagar en Línea con Tarjetas -->
+        <button onclick="pagarConMercadoPago()" style="width: 100% !important; background-color: #00ffff !important; color: #000000 !important; border: none !important; padding: 12px !important; border-radius: 6px !important; font-weight: 900 !important; font-size: 1rem !important; cursor: pointer !important; text-transform: uppercase !important; display: block !important;">
+            💳 Pagar con Tarjeta
+        </button>
+    </div>
+
+          <!-- 2. LÓGICA COMPLETA DEL CARRITO EN JAVASCRIPT -->
+    <script>
+        let carrito = [];
+
+        function agregarAlCarrito(nombre, precio) {
+            const productoExistente = carrito.find(item => item.nombre === nombre);
+
+            if (productoExistente) {
+                productoExistente.cantidad += 1;
+            } else {
+                carrito.push({ nombre: nombre, precio: precio, cantidad: 1 });
+            }
+
+            actualizarInterfazCarrito();
+        }
+
+        function actualizarInterfazCarrito() {
+            const contenedorItems = document.getElementById('items-carrito');
+            const contenedorTotal = document.getElementById('total-precio');
+            const carritoFlotante = document.getElementById('carrito-flotante');
+
+            if (carrito.length === 0) {
+                carritoFlotante.style.display = 'none';
+                return;
+            }
+
+            carritoFlotante.style.display = 'block';
+            contenedorItems.innerHTML = '';
+            let total = 0;
+
+            carrito.forEach(item => {
+                const subtotal = item.precio * item.cantidad;
+                total += subtotal;
+
+                contenedorItems.innerHTML += `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px dashed #333; padding-bottom: 4px;">
+                        <span>${item.cantidad}x ${item.nombre}</span>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span>$${subtotal.toLocaleString('es-AR')}</span>
+                            <button onclick="eliminarDelCarrito('${item.nombre}')" style="background: none; border: none; color: #ff3333; cursor: pointer; font-size: 1rem; padding: 0 5px;">❌</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            contenedorTotal.innerText = `$${total.toLocaleString('es-AR')}`;
+        }
+
+        function eliminarDelCarrito(nombre) {
+            carrito = carrito.filter(item => item.nombre !== nombre);
+            actualizarInterfazCarrito();
+        }
+
+        function enviarPedidoWhatsApp() {
+            const numeroTelefono = "5493886828554"; 
+            let mensaje = "¡Hola Cascos Norte! 👋 Quiero realizar el siguiente pedido:\n\n";
+            let total = 0;
+
+            carrito.forEach(item => {
+                const subtotal = item.precio * item.cantidad;
+                total += subtotal;
+                mensaje += "• " + item.cantidad + "x " + item.nombre + " ($" + subtotal.toLocaleString('es-AR') + ")\n";
+            });
+
+            mensaje += "\n💰 *TOTAL A PAGAR: $" + total.toLocaleString('es-AR') + "*\n\n";
+            mensaje += "Por favor, confirmame el stock así coordinamos el envío. ¡Gracias!";
+
+            const mensajeEncriptado = encodeURIComponent(mensaje);
+            window.open("https://wa.me/" + numeroTelefono + "?text=" + mensajeEncriptado, '_blank');
+        }
+
+        function pagarConMercadoPago() {
+            let total = 0;
+            carrito.forEach(item => {
+                total += (item.precio * item.cantidad);
+            });
+
+            if (total === 0) return;
+
+            alert("⚙️ Conectando con la pasarela segura de Mercado Pago...\nTotal a procesar con tarjeta de crédito/débito: $" + total.toLocaleString('es-AR'));
+            window.open("https://mercadopago.com.ar", "_blank");
+        }
+    </script>
+</body>
+</html>
